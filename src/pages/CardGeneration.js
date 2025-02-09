@@ -87,7 +87,12 @@ const CardCarousel = () => {
             style={styles.backgroundImage}
             blurRadius={12}
           />
-          <View style={styles.carousel}>
+          <View
+            style={[
+              styles.carousel,
+              { justifyContent: isRunning ? 'space-between' : 'center' },
+            ]}
+          >
             {isRunning && (
               <Animated.View style={[styles.card, animatedCardStyle]}>
                 <Image source={shuffledData[(currentIndex + 1) % shuffledData.length].boardIcon} style={styles.smallCard} />
@@ -96,13 +101,14 @@ const CardCarousel = () => {
 
             <Animated.View style={[styles.mainCard, animatedCardStyle]}>
               <Image source={shuffledData[currentIndex].boardIcon} style={styles.mainCardImage} />
-              <Text style={styles.cardName}>{shuffledData[currentIndex].name}</Text>
-              {/* Description qui pop sous le titre */}
-              {showDescription && (
-                <Text style={styles.cardDescription}>
-                  {shuffledData[currentIndex].description}
-                </Text>
-              )}
+              <View style={styles.cardInfo}>
+                <Text style={styles.cardName}>{shuffledData[currentIndex].name}</Text>
+                {showDescription && (
+                  <Text style={styles.cardDescription}>
+                    {shuffledData[currentIndex].description}
+                  </Text>
+                )}
+              </View>
             </Animated.View>
 
             {isRunning && (
@@ -159,17 +165,20 @@ const styles = StyleSheet.create({
     height: 160,
     resizeMode: 'contain',
   },
+  cardInfo: {
+      alignItems: 'center',
+      marginTop: 10,
+  },
   cardName: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    position: 'absolute',
-    bottom: -30,
+    textAlign: 'center',
   },
   cardDescription: {
     color: '#fff',
     fontSize: 16,
-    marginTop: 10,
+    marginTop: 5,
     textAlign: 'center',
   },
 });
